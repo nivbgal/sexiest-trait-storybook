@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>התכונה הסקסית ביותר?</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;700;800&family=Secular+One&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="book-app">
+      <header class="book-chrome">
+        <div>
+          <p class="book-name">התכונה הסקסית ביותר?</p>
+        </div>
+      </header>
+
+      <section class="scene-player" id="scenePlayer" aria-live="polite">
+        <div class="scene-backdrop" id="sceneBackdrop"></div>
+
+        <div class="scene-meta">
+          <p class="scene-count" id="sceneCount"></p>
+          <div class="scene-dots" id="sceneDots" aria-label="עמודי הסיפור"></div>
+        </div>
+
+        <figure class="scene-frame">
+          <img
+            id="sceneImage"
+            src=""
+            alt=""
+            width="1376"
+            height="768"
+            loading="eager"
+          />
+        </figure>
+
+        <section class="story-card">
+          <div class="story-head">
+            <p class="story-kicker" id="sceneKicker"></p>
+            <p class="story-end" id="storyEnd" hidden>סוף הסיפור</p>
+          </div>
+          <div class="story-lines" id="storyLines"></div>
+        </section>
+
+        <footer class="story-controls">
+          <button class="story-button story-button-secondary" id="prevButton" type="button">
+            חזרה
+          </button>
+          <button class="story-button" id="actionButton" type="button">
+            העמוד הבא
+          </button>
+        </footer>
+      </section>
+    </main>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
