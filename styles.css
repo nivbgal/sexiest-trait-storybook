@@ -53,13 +53,13 @@ button {
 }
 
 .book-chrome {
-  display: grid;
-  grid-template-columns: auto auto;
+  display: flex;
   justify-content: space-between;
   align-items: start;
   gap: 12px;
   width: 100%;
   z-index: 1;
+  min-width: 0;
 }
 
 .scene-count,
@@ -82,7 +82,9 @@ button {
   box-shadow: 0 12px 24px rgba(72, 53, 30, 0.08);
   font-size: 1.1rem;
   font-weight: 800;
-  justify-self: start;
+  white-space: nowrap;
+  flex: 0 1 auto;
+  min-width: 0;
 }
 
 .book-credit {
@@ -97,8 +99,10 @@ button {
   font-weight: 500;
   letter-spacing: 0.04em;
   color: rgba(96, 75, 46, 0.54);
-  justify-self: end;
   white-space: nowrap;
+  flex: 0 1 auto;
+  min-width: 0;
+  text-align: left;
 }
 
 .scene-player {
@@ -420,6 +424,10 @@ button {
     padding: 6px 9px;
     font-size: 0.64rem;
     letter-spacing: 0.03em;
+    white-space: normal;
+    max-width: 34vw;
+    line-height: 1.2;
+    text-wrap: balance;
   }
 
   .scene-dots {
