@@ -53,21 +53,13 @@ button {
 }
 
 .book-chrome {
-  position: relative;
-  z-index: 1;
-  padding: 10px 14px;
-  border-radius: 18px;
-  background: rgba(255, 251, 244, 0.8);
-  border: 1px solid var(--line);
-  backdrop-filter: blur(14px);
-  box-shadow: 0 12px 24px rgba(72, 53, 30, 0.08);
-  justify-self: start;
-}
-
-.book-signature {
   display: grid;
-  gap: 4px;
-  text-align: left;
+  grid-template-columns: auto auto;
+  justify-content: space-between;
+  align-items: start;
+  gap: 12px;
+  width: 100%;
+  z-index: 1;
 }
 
 .scene-count,
@@ -82,16 +74,31 @@ button {
 
 .book-name {
   margin: 0;
+  padding: 10px 14px;
+  border-radius: 18px;
+  background: rgba(255, 251, 244, 0.84);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 12px 24px rgba(72, 53, 30, 0.08);
   font-size: 1.1rem;
   font-weight: 800;
+  justify-self: start;
 }
 
 .book-credit {
   margin: 0;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255, 251, 244, 0.48);
+  border: 1px solid rgba(88, 69, 45, 0.08);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 18px rgba(72, 53, 30, 0.05);
   font-size: 0.8rem;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.04em;
-  color: rgba(96, 75, 46, 0.72);
+  color: rgba(96, 75, 46, 0.54);
+  justify-self: end;
+  white-space: nowrap;
 }
 
 .scene-player {
@@ -329,8 +336,18 @@ button {
   }
 
   .book-chrome {
+    gap: 10px;
+  }
+
+  .book-name {
     padding: 8px 12px;
     border-radius: 16px;
+    font-size: 1rem;
+  }
+
+  .book-credit {
+    padding: 7px 10px;
+    font-size: 0.72rem;
   }
 
   .scene-player {
@@ -390,6 +407,21 @@ button {
 }
 
 @media (max-width: 520px) {
+  .book-chrome {
+    gap: 8px;
+  }
+
+  .book-name {
+    padding: 7px 10px;
+    font-size: 0.92rem;
+  }
+
+  .book-credit {
+    padding: 6px 9px;
+    font-size: 0.64rem;
+    letter-spacing: 0.03em;
+  }
+
   .scene-dots {
     gap: 6px;
   }
