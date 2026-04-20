@@ -64,6 +64,12 @@ button {
   justify-self: start;
 }
 
+.book-signature {
+  display: grid;
+  gap: 4px;
+  text-align: left;
+}
+
 .scene-count,
 .story-kicker {
   margin: 0;
@@ -78,6 +84,14 @@ button {
   margin: 0;
   font-size: 1.1rem;
   font-weight: 800;
+}
+
+.book-credit {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: rgba(96, 75, 46, 0.72);
 }
 
 .scene-player {
