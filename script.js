@@ -119,8 +119,11 @@ const scenes = [
 ];
 
 const state = {
-  currentScene: 0
+  currentScene: 0,
+  isTransitioning: false
 };
+
+const imageCache = new Map();
 
 const scenePlayer = document.getElementById("scenePlayer");
 const sceneBackdrop = document.getElementById("sceneBackdrop");
@@ -139,6 +142,79 @@ function currentSceneData() {
 
 function isLastScene() {
   return state.currentScene === scenes.length - 1;
+}
+
+function preloadSceneImage(src) {
+  if (imageCache.has(src)) {
+    return imageCache.get(src);
+  }
+
+  const image = new Image();
+  image.decoding = "async";
+
+  const promise = new Promise((resolve) => {
+    let settled = false;
+
+    const finish = async (result) => {
+      if (settled) {
+        return;
+      }
+
+      settled = true;
+
+      if (result?.decode) {
+        try {
+          await result.decode();
+        } catch (error) {
+          // Ignore decode failures and fall back to the loaded image.
+        }
+      }
+
+      resolve(result);
+    };
+
+    image.onload = () => {
+      void finish(image);
+    };
+
+    image.onerror = () => {
+      void finish(null);
+    };
+
+    image.src = src;
+
+    if (image.complete) {
+      void finish(image.naturalWidth > 0 ? image : null);
+    }
+  });
+
+  imageCache.set(src, promise);
+  return promise;
+}
+
+function preloadNearbyScenes() {
+  const nearbyIndexes = [state.currentScene - 1, state.currentScene + 1];
+
+  nearbyIndexes.forEach((index) => {
+    if (index >= 0 && index < scenes.length) {
+      void preloadSceneImage(scenes[index].image);
+    }
+  });
+}
+
+function warmImageCache() {
+  const loadRemainingImages = () => {
+    scenes.forEach((scene) => {
+      void preloadSceneImage(scene.image);
+    });
+  };
+
+  if ("requestIdleCallback" in window) {
+    window.requestIdleCallback(loadRemainingImages);
+    return;
+  }
+
+  window.setTimeout(loadRemainingImages, 0);
 }
 
 function renderDots() {
@@ -193,22 +269,35 @@ function renderScene() {
   sceneCount.style.display = "none";
   sceneKicker.textContent = `${state.currentScene + 1}/${scenes.length}`;
   actionButton.textContent = actionLabel();
-  prevButton.disabled = state.currentScene === 0;
-  actionButton.disabled = isLastScene();
+  prevButton.disabled = state.isTransitioning || state.currentScene === 0;
+  actionButton.disabled = state.isTransitioning || isLastScene();
   storyEnd.hidden = !isLastScene();
   storyEnd.style.display = isLastScene() ? "inline-flex" : "none";
 
   renderLines();
   renderDots();
   animateSceneChange();
+  preloadNearbyScenes();
 }
 
-function setScene(index) {
-  if (index < 0 || index >= scenes.length || index === state.currentScene) {
+async function setScene(index) {
+  if (
+    index < 0 ||
+    index >= scenes.length ||
+    index === state.currentScene ||
+    state.isTransitioning
+  ) {
     return;
   }
 
+  state.isTransitioning = true;
+  prevButton.disabled = true;
+  actionButton.disabled = true;
+
+  await preloadSceneImage(scenes[index].image);
+
   state.currentScene = index;
+  state.isTransitioning = false;
   renderScene();
 }
 
@@ -258,3 +347,4 @@ scenePlayer.addEventListener("pointerup", (event) => {
 });
 
 renderScene();
+warmImageCache();
